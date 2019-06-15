@@ -3,6 +3,9 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  signUpName: {
+    type: Sequelize.STRING
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -26,6 +29,11 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  balance: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 5000
   }
 })
 
