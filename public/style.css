@@ -35,10 +35,6 @@ input[type='file'] {
   margin-top: 15px;
 }
 
-.App .navbar-brand {
-  font-weight: bold;
-}
-
 .Home .lander {
   padding: 80px 0;
   text-align: center;
@@ -113,4 +109,56 @@ input[type='file'] {
   to {
     transform: scale(1) rotate(360deg);
   }
+}
+
+.no-suggestions {
+  color: #999;
+  padding: 0.5rem;
+}
+
+.suggestions {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #999;
+  border-top-width: 0;
+  list-style: none;
+  margin-top: 50px;
+  max-height: 180px;
+  overflow-y: auto;
+  padding-left: 0;
+  width: calc(300px + 1rem);
+  top: 0px;
+  letter-spacing: normal;
+  white-space: pre;
+  text-transform: none;
+
+  /* position: absolute;
+    top: 0px;
+    left: 0px;
+    visibility: hidden;
+    height: 0px;
+    overflow: scroll;
+    white-space: pre;
+    font-size: 16px;
+    font-family: "Graphik Web", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: normal;
+    text-transform: none; */
+}
+
+.suggestions li {
+  padding: 0.5rem;
+}
+
+.suggestion-active,
+.suggestions li:hover {
+  background-color: #d5ecec;
+  /* color: #fae042; */
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.suggestions li:not(:last-of-type) {
+  border-bottom: 1px solid #999;
 }

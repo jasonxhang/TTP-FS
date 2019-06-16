@@ -74,27 +74,6 @@ class Login extends Component {
   }
 }
 
-const mapLogin = state => {
-  return {
-    name: 'login',
-    error: state.user.error
-  }
-}
-
-// const mapDispatch = dispatch => {
-//   return {
-//     handleLogin(evt) {
-//       const formName = this.props.name
-//       const signUpName =
-//         formName === 'signup' ? evt.target.signUpName.value : null
-//       const email = this.state.email
-//       const password = this.state.password
-
-//       dispatch(auth(email, password, signUpName, formName))
-//     }
-//   }
-// }
-
 const mapDispatch = {auth}
 
-export default connect(mapLogin, mapDispatch)(Login)
+export default connect(null, mapDispatch)(Login)

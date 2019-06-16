@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import {Router} from 'react-router-dom'
 import history from './history'
-// import App from './app'
 import App from './app'
 import {PersistGate} from 'redux-persist/es/integration/react'
 

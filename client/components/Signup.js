@@ -1,14 +1,10 @@
 import React, {Component} from 'react'
-import {
-  HelpBlock,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  Form
-} from 'react-bootstrap'
+import {FormControl, ControlLabel, Form} from 'react-bootstrap'
 import LoaderButton from './containers/LoaderButton'
+import {connect} from 'react-redux'
+import {auth} from '../store'
 
-export default class Signup extends Component {
+class Signup extends Component {
   constructor(props) {
     super(props)
 
@@ -17,8 +13,7 @@ export default class Signup extends Component {
       email: '',
       password: '',
       confirmPassword: '',
-      confirmationCode: '',
-      newUser: null
+      signUpName: ''
     }
   }
 
@@ -40,19 +35,18 @@ export default class Signup extends Component {
     })
   }
 
-  handleSubmit = async event => {
+  handleSubmit = event => {
     event.preventDefault()
-
     this.setState({isLoading: true})
 
     try {
-      const newUser = await Auth.signUp({
-        username: this.state.email,
-        password: this.state.password
-      })
-      this.setState({
-        newUser
-      })
+      this.props.auth(
+        this.state.email,
+        this.state.password,
+        this.state.signUpName,
+        'signup'
+      )
+      this.props.userHasAuthenticated(true)
     } catch (e) {
       alert(e.message)
     }
@@ -60,80 +54,48 @@ export default class Signup extends Component {
     this.setState({isLoading: false})
   }
 
-  handleConfirmationSubmit = async event => {
-    event.preventDefault()
-
-    this.setState({isLoading: true})
-
-    try {
-      // await Auth.confirmSignUp(this.state.email, this.state.confirmationCode);
-      // await Auth.signIn(this.state.email, this.state.password);
-
-      this.props.userHasAuthenticated(true)
-      this.props.history.push('/')
-    } catch (e) {
-      alert(e.message)
-      this.setState({isLoading: false})
-    }
-  }
-
-  renderConfirmationForm() {
-    return (
-      <form onSubmit={this.handleConfirmationSubmit}>
-        <FormGroup controlId="confirmationCode" bsSize="large">
-          <ControlLabel>Confirmation Code</ControlLabel>
-          <FormControl
-            autoFocus
-            type="tel"
-            value={this.state.confirmationCode}
-            onChange={this.handleChange}
-          />
-          <HelpBlock>Please check your email for the code.</HelpBlock>
-        </FormGroup>
-        <LoaderButton
-          block
-          bsSize="large"
-          disabled={!this.validateConfirmationForm()}
-          type="submit"
-          isLoading={this.state.isLoading}
-          text="Verify"
-          loadingText="Verifying…"
-        />
-      </form>
-    )
-  }
-
   renderForm() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <FormGroup controlId="email" bsSize="large">
-          <ControlLabel>Email</ControlLabel>
-          <FormControl
+        <Form.Group controlId="email" bssize="large">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
             autoFocus
             type="email"
             value={this.state.email}
             onChange={this.handleChange}
           />
-        </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
-          <ControlLabel>Password</ControlLabel>
-          <FormControl
+          <Form.Text className="text-muted">
+            We'll never share your email with anyone else.
+          </Form.Text>
+        </Form.Group>
+        <Form.Group controlId="signUpName" bssize="large">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="signUpName"
+            value={this.state.signUpName}
+            onChange={this.handleChange}
+          />
+        </Form.Group>
+        <Form.Group controlId="password" bssize="large">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             value={this.state.password}
             onChange={this.handleChange}
             type="password"
           />
-        </FormGroup>
-        <FormGroup controlId="confirmPassword" bsSize="large">
-          <ControlLabel>Confirm Password</ControlLabel>
-          <FormControl
+        </Form.Group>
+        <Form.Group controlId="confirmPassword" bssize="large">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
             value={this.state.confirmPassword}
             onChange={this.handleChange}
             type="password"
           />
-        </FormGroup>
+        </Form.Group>
         <LoaderButton
           block
-          bsSize="large"
+          bssize="large"
           disabled={!this.validateForm()}
           type="submit"
           isLoading={this.state.isLoading}
@@ -145,12 +107,10 @@ export default class Signup extends Component {
   }
 
   render() {
-    return (
-      <div className="Signup">
-        {this.state.newUser === null
-          ? this.renderForm()
-          : this.renderConfirmationForm()}
-      </div>
-    )
+    return <div className="Signup">{this.renderForm()}</div>
   }
 }
+
+const mapDispatch = {auth}
+
+export default connect(null, mapDispatch)(Signup)

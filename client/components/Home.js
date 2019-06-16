@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import {PageHeader, ListGroup, ListGroupItem} from 'react-bootstrap'
+import {ListGroup, Jumbotron} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import {LinkContainer} from 'react-router-bootstrap'
+import {connect} from 'react-redux'
 
 class Home extends Component {
   constructor(props) {
@@ -79,14 +80,42 @@ class Home extends Component {
   }
 
   render() {
+    const {user} = this.props
     return (
       <div className="Home">
-        {this.props.isAuthenticated
-          ? 'Welcome to Stock Portfolio'
-          : 'Please login to get the full experience'}
+        {this.props.isAuthenticated ? (
+          <Jumbotron>
+            <h1>Hello, {user.signUpName}!</h1>
+            <p>
+              Welcome to Stock Portfolio. Feel free to search for stocks and
+              view quotes, company info and more. Portfolio view displays all
+              currently owned stocks and Transactions provides a view of all
+              transactions and performance.
+            </p>
+          </Jumbotron>
+        ) : (
+          <Jumbotron>
+            <h1>Hello, Guest!</h1>
+            <p>
+              Welcome to Stock Portfolio. Feel free to search for stocks and
+              view quotes, company info and more. Please sign up for an account
+              or login to buy and sell for your portfolio and track transaction
+              performance over time.
+            </p>
+          </Jumbotron>
+        )}
       </div>
     )
   }
 }
 
-export default Home
+// const mapState = state => {
+//   return {
+
+//     name: state.user.name
+//   }
+// }
+
+const mapState = ({user}) => ({user})
+
+export default connect(mapState)(Home)
