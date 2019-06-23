@@ -2,6 +2,7 @@ import React, {Fragment, useState} from 'react'
 import {withRouter, NavLink} from 'react-router-dom'
 import {Nav, Navbar, Form, FormControl, Button} from 'react-bootstrap'
 import Autocomplete from './Autocomplete'
+import {formatter} from './containers/currency'
 
 const TopNav = ({isLoggedIn, handleLogout, balance, history, symbols}) => {
   const [searchVal, setSearchVal] = useState('')
@@ -54,7 +55,9 @@ const TopNav = ({isLoggedIn, handleLogout, balance, history, symbols}) => {
             )}
           </Nav>
           {isLoggedIn && (
-            <Navbar.Brand id="balance">Balance: ${balance}</Navbar.Brand>
+            <Navbar.Brand id="balance">
+              Balance: {formatter.format(balance)}
+            </Navbar.Brand>
           )}
           <Form inline onSubmit={e => handleSubmit(e)}>
             {/* <FormControl

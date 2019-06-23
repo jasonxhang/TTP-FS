@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom'
 import {Row, Col, Image, Spinner} from 'react-bootstrap'
 import {useFetchStock} from './containers/useFetchStock'
 import NotFound from './NotFound'
+import StockTransaction from './StockTransaction'
 
 const StockPage = props => {
   const ticker = props.match.params.ticker
@@ -12,7 +13,7 @@ const StockPage = props => {
   const {info, logo, quote, stats} = stockData
   const renderLoading = () => {
     return (
-      <div>
+      <div className="loading">
         {' '}
         Loading...
         <Spinner animation="border" variant="primary" />
@@ -22,11 +23,23 @@ const StockPage = props => {
 
   const renderStockInfo = () => {
     return (
-      <Row>
-        <Col xs={6} md={4}>
-          {logo && <Image src={logo.url} rounded />}
-        </Col>
-      </Row>
+      info &&
+      logo &&
+      quote &&
+      stats && (
+        <div className="stockpage-container">
+          <div className="company-container">
+            <h1>{info.symbol}</h1>
+            <h5>{info.companyName}</h5>
+            <h5>Price: {quote.latestPrice}</h5>
+          </div>
+          <StockTransaction
+            price={quote.latestPrice}
+            ticker={info.symbol}
+            name={info.companyName}
+          />
+        </div>
+      )
     )
   }
   return (

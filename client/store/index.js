@@ -3,6 +3,7 @@ import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
+import portfolio from './portfolio'
 import {persistStore, persistReducer} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -11,7 +12,7 @@ const persistConfig = {
   storage
 }
 
-const rootReducer = combineReducers({user})
+const rootReducer = combineReducers({user, portfolio})
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
@@ -20,6 +21,7 @@ const middleware = composeWithDevTools(
 )
 
 export * from './user'
+export * from './portfolio'
 
 export default () => {
   let store = createStore(persistedReducer, middleware)

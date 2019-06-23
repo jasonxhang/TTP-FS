@@ -29,16 +29,22 @@ class Login extends Component {
     event.preventDefault()
     this.setState({isLoading: true})
 
-    try {
-      this.props.auth(this.state.email, this.state.password, null, 'login')
-      this.props.userHasAuthenticated(true)
-    } catch (e) {
-      console.error(e)
-      this.setState({isLoading: false})
-    }
+    this.props.auth(this.state.email, this.state.password, null, 'login')
+    // this.props.userHasAuthenticated(true)
+
+    // try {
+    //   this.props.auth(this.state.email, this.state.password, null, 'login')
+    //   this.props.userHasAuthenticated(true)
+    // } catch (e) {
+    //   // alert(e.message)
+    //   alert(this.props.error.response.data)
+    //   console.error(e)
+    //   this.setState({isLoading: false})
+    // }
   }
 
   render() {
+    const {error} = this.props
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
@@ -64,16 +70,34 @@ class Login extends Component {
             bssize="large"
             disabled={!this.validateForm()}
             type="submit"
-            isLoading={this.state.isLoading}
+            isLoading={this.state.isLoading && !error}
             text="Login"
             loadingText="Logging in…"
           />
         </form>
+        {error &&
+          error.response && (
+            <div id="error-response"> {error.response.data} </div>
+          )}
       </div>
     )
   }
 }
 
+const mapState = state => {
+  return {
+    error: state.user.error
+  }
+}
+
 const mapDispatch = {auth}
 
-export default connect(null, mapDispatch)(Login)
+// const mapDispatch = dispatch => {
+//   return {
+//     dispatchAuth(email, password, signUpName, method) {
+//       dispatch(auth(email, password, signUpName, method))
+//     }
+//   }
+// }
+
+export default connect(mapState, mapDispatch)(Login)

@@ -114,6 +114,7 @@ input[type='file'] {
 .no-suggestions {
   color: #999;
   padding: 0.5rem;
+  z-index: 10;
 }
 
 .suggestions {
@@ -131,6 +132,7 @@ input[type='file'] {
   letter-spacing: normal;
   white-space: pre;
   text-transform: none;
+  z-index: 10;
 
   /* position: absolute;
     top: 0px;
@@ -161,4 +163,62 @@ input[type='file'] {
 
 .suggestions li:not(:last-of-type) {
   border-bottom: 1px solid #999;
+}
+
+.table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 2px;
+  margin-top: 40px;
+}
+
+.thead {
+  display: table-header-group;
+  color: white;
+  font-weight: bold;
+  background-color: grey;
+}
+.tbody {
+  display: table-row-group;
+}
+.tr {
+  display: table-row;
+}
+.td {
+  display: table-cell;
+  border: 1px solid black;
+  padding: 1px;
+}
+.tr.editing .td input {
+  width: 100px;
+}
+
+.loading {
+  padding: 170px 0;
+  text-align: center;
+}
+
+.page-container {
+  margin-top: 15px;
+}
+
+.stockpage-container {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  height: 100%;
+}
+
+.company-container {
+  width: 60%;
+}
+
+.transaction-container {
+  width: 40%;
+}
+
+.portfolio-container {
+  margin-top: 30px;
 }

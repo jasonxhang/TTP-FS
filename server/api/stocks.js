@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const axios = require('axios')
+const {Stock, StockOrder, User} = require('../db/models')
 module.exports = router
 
 const API_KEY = process.env.IEX_PUB_KEY
@@ -38,6 +39,60 @@ router.get('/:ticker', async (req, res, next) => {
 
     const allData = {info, quote, stats, logo}
     res.json(allData)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/order', async (req, res, next) => {
+  try {
+    const {
+      purchaseType,
+      quantity,
+      price,
+      ticker,
+      name,
+      notes,
+      netVal
+    } = req.body
+    req.body.userId = req.user.id
+
+    const response = await StockOrder.create(req.body)
+    const user = await User.findOne({
+      where: {id: req.user.id}
+    })
+
+    if (purchaseType === 'buy') {
+      if (user.balance < netVal) {
+        throw new Error('Insufficient funds to place order!')
+      }
+      const arr = await Stock.findOrCreate({
+        where: {ticker: ticker, companyName: name}
+      })
+      const instance = arr[0] // the first element is the instance
+      const wasCreated = arr[1] // the second element tells us if the instance was newly created
+      if (wasCreated) {
+        instance.numShares = quantity
+        instance.companyName = name
+        instance.userId = req.user.id
+        instance.latestPrice = price
+        await instance.save()
+      } else {
+        instance.numShares += parseInt(quantity, 10)
+        await instance.save()
+      }
+    } else if (purchaseType === 'sell') {
+      const stock = await Stock.findOne({where: {ticker: ticker}})
+      if (quantity > stock.numShares) {
+        throw new Error('Not enough shares to sell!')
+      }
+
+      stock.numShares -= parseInt(quantity, 10)
+      stock.latestPrice = price
+      await stock.save()
+    }
+
+    res.json(response)
   } catch (err) {
     next(err)
   }

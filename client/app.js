@@ -12,7 +12,7 @@ import {
 import {LinkContainer} from 'react-router-bootstrap'
 import Routes from './routes'
 import {connect} from 'react-redux'
-import {logout, me} from './store'
+import {logout, me, fetchPortfolio} from './store'
 import {TopNav} from './components'
 import axios from 'axios'
 import Autocomplete from './components/Autocomplete'
@@ -22,8 +22,8 @@ class App extends Component {
     super(props)
 
     this.state = {
-      isAuthenticated: this.props.isLoggedIn,
-      isAuthenticating: true,
+      // isAuthenticated: this.props.isLoggedIn,
+      // isAuthenticating: true,
       symbols: []
     }
   }
@@ -32,53 +32,53 @@ class App extends Component {
     console.log('loading initial data')
     await this.props.loadInitialData()
     console.log('initial data loaded', this.props)
-    const {data} = await axios.get('/api/stocks/symbols')
-    console.log(typeof data)
-    for (let obj of data) {
-      obj.searchTerm = obj.symbol + '-' + obj.name
+
+    try {
+      const {data} = await axios.get('/api/stocks/symbols')
+      console.log(typeof data)
+      for (let obj of data) {
+        obj.searchTerm = obj.symbol + '-' + obj.name
+      }
+      this.setState({symbols: data})
+    } catch (e) {
+      console.error(e)
     }
-    this.setState({symbols: data})
 
     if (this.props.isLoggedIn) {
       console.log('user is logged in')
-      this.userHasAuthenticated(true)
+      // this.userHasAuthenticated(true)
+      this.props.loadPortfolio()
     }
 
-    this.setState({
-      isAuthenticating: false
-    })
+    // this.setState({
+    //   isAuthenticating: false
+    // })
   }
 
-  userHasAuthenticated = authenticated => {
-    this.setState({
-      isAuthenticated: authenticated
-    })
-  }
+  // userHasAuthenticated = authenticated => {
+  //   this.setState({
+  //     isAuthenticated: authenticated
+  //   })
+  // }
 
   handleLogout = () => {
     this.props.handleLogout()
-    this.userHasAuthenticated(false)
+    // this.userHasAuthenticated(false)
     this.props.history.push('/')
   }
 
   render() {
-    const childProps = {
-      isAuthenticated: this.state.isAuthenticated,
-      userHasAuthenticated: this.userHasAuthenticated
-    }
-    console.log(this.state)
+    // console.log(this.state)
     return (
-      !this.state.isAuthenticating && (
-        <div className="App container">
-          <TopNav
-            balance={this.props.balance}
-            handleLogout={this.handleLogout}
-            isLoggedIn={this.props.isLoggedIn}
-            symbols={this.state.symbols}
-          />
-          <Routes childProps={childProps} />
-        </div>
-      )
+      <div className="App container">
+        <TopNav
+          balance={this.props.balance}
+          handleLogout={this.handleLogout}
+          isLoggedIn={this.props.isLoggedIn}
+          symbols={this.state.symbols}
+        />
+        <Routes />
+      </div>
     )
   }
 }
@@ -97,6 +97,9 @@ const mapDispatch = dispatch => {
     },
     loadInitialData() {
       dispatch(me())
+    },
+    loadPortfolio() {
+      dispatch(fetchPortfolio())
     }
   }
 }

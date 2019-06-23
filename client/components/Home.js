@@ -81,9 +81,10 @@ class Home extends Component {
 
   render() {
     const {user} = this.props
+    console.log(user)
     return (
       <div className="Home">
-        {this.props.isAuthenticated ? (
+        {user.email ? (
           <Jumbotron>
             <h1>Hello, {user.signUpName}!</h1>
             <p>

@@ -7,12 +7,23 @@ const Stock = db.define('stocks', {
     allowNull: false
   },
   companyName: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: false
   },
   numShares: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: false,
+    defaultValue: 0
+  },
+  latestPrice: {
+    type: Sequelize.FLOAT,
+    allowNull: false,
+    defaultValue: 0
+  },
+  daysOpenPrice: {
+    type: Sequelize.FLOAT,
+    allowNull: false,
+    defaultValue: 0
   }
 })
 
