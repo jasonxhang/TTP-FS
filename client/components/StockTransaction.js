@@ -28,7 +28,6 @@ const StockTransaction = ({
       if (curr.numShares === 0) accum = 0
       return accum
     }, 0)
-    console.log('num', num)
     setOwnedShares(num)
   }
 
