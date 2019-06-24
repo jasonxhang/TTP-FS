@@ -12,7 +12,6 @@ const Transactions = props => {
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
 
-  console.log(transactions)
   const fetchTransactions = async () => {
     setIsError(false)
     setIsLoading(true)

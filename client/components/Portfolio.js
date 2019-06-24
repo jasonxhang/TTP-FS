@@ -12,7 +12,6 @@ const Portfolio = props => {
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
   const [portfolioValue, setPortfolioValue] = useState('')
-  console.log('isLoading', isLoading)
 
   const fetchPortfolio = async () => {
     setIsError(false)

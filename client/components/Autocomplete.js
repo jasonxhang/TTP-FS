@@ -101,8 +101,6 @@ class Autocomplete extends Component {
       userInput: e.currentTarget.innerText
     })
     this.props.handleSubmit(e)
-    console.log('user Input', this.state.userInput)
-    console.log('show suggestions', this.state.showSuggestions)
   }
 
   render() {

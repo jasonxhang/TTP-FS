@@ -7,7 +7,6 @@ import moment from 'moment'
 import {formatter} from './containers/currency'
 
 const PortfolioItem = ({stock, eventKey}) => {
-  // console.log(stock)
   const {
     ticker,
     numShares,

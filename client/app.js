@@ -23,7 +23,6 @@ class App extends Component {
 
     try {
       const {data} = await axios.get('/api/stocks/symbols')
-      console.log(typeof data)
       for (let obj of data) {
         obj.searchTerm = obj.symbol + '-' + obj.name
       }

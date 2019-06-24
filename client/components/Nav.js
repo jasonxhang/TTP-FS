@@ -10,12 +10,9 @@ const TopNav = ({isLoggedIn, handleLogout, balance, history, symbols}) => {
     setSearchVal(e.target.value)
   }
   const resetInputField = () => {
-    console.log('resetting')
     setSearchVal('')
-    console.log('searchVal', searchVal)
   }
   const handleSubmit = e => {
-    console.log('handling submit')
     e.preventDefault()
     history.push(`/stock/${searchVal}`)
     resetInputField()
