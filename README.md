@@ -1,4 +1,4 @@
-##TTP-FS Stock Portfolio Platform
+## TTP-FS Stock Portfolio Platform ##
 _Mock stock buying and selling project for TTP application_
 
 Built on a Node.js/Express backend using PostgreSQL database with React.js/Redux based front end.
