@@ -9,9 +9,10 @@ import moment from 'moment'
 
 const Transactions = props => {
   const [transactions, setTransactions] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
 
+  console.log(transactions)
   const fetchTransactions = async () => {
     setIsError(false)
     setIsLoading(true)
@@ -28,7 +29,6 @@ const Transactions = props => {
 
   useEffect(() => {
     const getTransactions = !transactions.length
-    console.log('getTransactions', getTransactions)
     getTransactions && fetchTransactions()
   }, [])
 
@@ -41,24 +41,8 @@ const Transactions = props => {
     )
   }
 
-  // const renderTransactionData = () => {
-  //   return (
-  //     transactions && (
-  //       <div className="pageContainer">
-  //         <div className="transactionContainer">
-  //         {transactions.map(e => (
-  //           <div key={e.id}>
-  //           <p>{e.ticker} - {e.name}</p>
-  //             </div>
-  //         ))}
-  //           </div>
-  //       </div>
-  //     )
-  //   )
-  // }
-
   const renderTransactionTable = () => {
-    return transactions.map((t, i) => {
+    return transactions.map(t => {
       return (
         <div className="tr" key={t.id}>
           <div className="td">
@@ -68,7 +52,10 @@ const Transactions = props => {
           <div className="td">{t.purchaseType}</div>
           <div className="td">{t.quantity}</div>
           <div className="td">{t.price}</div>
-          <div className="td">{t.netVal}</div>
+          <div className="td">
+            {t.purchaseType === 'sell' ? '+' : '-'}
+            {t.netVal}
+          </div>
           <div className="td">{t.notes}</div>
           <div className="td">
             {moment(t.createdAt).format('MMMM Do YYYY, h:mm:ss a')}

@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Open Sans', sans-serif;
+  /* font-family: 'PT Serif', serif; */
   font-size: 16px;
   color: #333;
   -webkit-font-smoothing: antialiased;
@@ -13,7 +14,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+.navbar {
   font-family: 'PT Serif', serif;
 }
 
@@ -33,39 +35,6 @@ input[type='file'] {
 
 .App {
   margin-top: 15px;
-}
-
-.Home .lander {
-  padding: 80px 0;
-  text-align: center;
-}
-
-.Home .lander h1 {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
-}
-
-.Home .lander p {
-  color: #999;
-}
-
-.Home .notes h4 {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
-  overflow: hidden;
-  line-height: 1.5;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.Home .notes p {
-  color: #666;
-}
-
-.Home .lander div {
-  padding-top: 20px;
-}
-.Home .lander div a:first-child {
-  margin-right: 20px;
 }
 
 .Login {
@@ -95,20 +64,6 @@ input[type='file'] {
   font-size: 14px;
   padding-bottom: 10px;
   color: #999;
-}
-
-.LoaderButton .spinning.glyphicon {
-  margin-right: 7px;
-  top: 2px;
-  animation: spin 1s infinite linear;
-}
-@keyframes spin {
-  from {
-    transform: scale(1) rotate(0deg);
-  }
-  to {
-    transform: scale(1) rotate(360deg);
-  }
 }
 
 .no-suggestions {
@@ -199,7 +154,7 @@ input[type='file'] {
 }
 
 .page-container {
-  margin-top: 15px;
+  margin-top: 40px;
 }
 
 .stockpage-container {
@@ -212,13 +167,50 @@ input[type='file'] {
 }
 
 .company-container {
-  width: 60%;
+  width: 65%;
+  margin-right: 60px;
+}
+.company-container > h1 {
+  margin-bottom: 2%;
+}
+
+.stock-details {
+  margin-top: 5%;
 }
 
 .transaction-container {
-  width: 40%;
+  width: 35%;
 }
 
 .portfolio-container {
-  margin-top: 30px;
+  margin-top: 40px;
+}
+
+#error-response {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.stock-details {
+  border: 1px solid rgb(124, 124, 124);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.portfolio-item-body,
+.stock-details {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  height: 100%;
+  justify-content: flex-start;
+}
+
+.portfolio-item-body > p {
+  width: 33%;
+}
+
+.stock-details > h6 {
+  width: 33%;
+  margin-bottom: 25px;
 }

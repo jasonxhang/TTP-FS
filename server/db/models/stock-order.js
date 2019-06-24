@@ -51,4 +51,20 @@ const adjustBalance = async order => {
 
 StockOrder.afterCreate(adjustBalance)
 
+// StockOrder.prototype.adjustBalance = async order => {
+//   if (order.purchaseType === 'buy') {
+//     const user = await User.findByPk(order.userId)
+//     user.balance = parseFloat(user.balance - order.netVal, 10)
+//     const updatedUser = await user.save()
+
+//     console.log(updatedUser.dataValues.balance)
+//   } else if (order.purchaseType === 'sell') {
+//     const user = await User.findByPk(order.userId)
+//     user.balance = parseFloat(user.balance + order.netVal, 10)
+//     const updatedUser = await user.save()
+
+//     console.log(updatedUser.dataValues.balance)
+//   }
+// }
+
 module.exports = StockOrder

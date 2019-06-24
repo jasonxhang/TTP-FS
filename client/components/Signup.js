@@ -46,7 +46,6 @@ class Signup extends Component {
         this.state.signUpName,
         'signup'
       )
-      this.props.userHasAuthenticated(true)
     } catch (e) {
       alert(e.message)
     }
@@ -55,54 +54,61 @@ class Signup extends Component {
   }
 
   renderForm() {
+    const {error} = this.props
     return (
-      <form onSubmit={this.handleSubmit}>
-        <Form.Group controlId="email" bssize="large">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            autoFocus
-            type="email"
-            value={this.state.email}
-            onChange={this.handleChange}
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <Form.Group controlId="email" bssize="large">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              autoFocus
+              type="email"
+              value={this.state.email}
+              onChange={this.handleChange}
+            />
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text>
+          </Form.Group>
+          <Form.Group controlId="signUpName" bssize="large">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="signUpName"
+              value={this.state.signUpName}
+              onChange={this.handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="password" bssize="large">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              value={this.state.password}
+              onChange={this.handleChange}
+              type="password"
+            />
+          </Form.Group>
+          <Form.Group controlId="confirmPassword" bssize="large">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              value={this.state.confirmPassword}
+              onChange={this.handleChange}
+              type="password"
+            />
+          </Form.Group>
+          <LoaderButton
+            block
+            bssize="large"
+            disabled={!this.validateForm()}
+            type="submit"
+            isLoading={this.state.isLoading}
+            text="Signup"
+            loadingText="Signing up…"
           />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
-        <Form.Group controlId="signUpName" bssize="large">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="signUpName"
-            value={this.state.signUpName}
-            onChange={this.handleChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="password" bssize="large">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            value={this.state.password}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </Form.Group>
-        <Form.Group controlId="confirmPassword" bssize="large">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            value={this.state.confirmPassword}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </Form.Group>
-        <LoaderButton
-          block
-          bssize="large"
-          disabled={!this.validateForm()}
-          type="submit"
-          isLoading={this.state.isLoading}
-          text="Signup"
-          loadingText="Signing up…"
-        />
-      </form>
+        </form>
+        {error &&
+          error.response && (
+            <div id="error-response"> {error.response.data} </div>
+          )}
+      </div>
     )
   }
 
@@ -111,6 +117,12 @@ class Signup extends Component {
   }
 }
 
+const mapState = state => {
+  return {
+    error: state.user.error
+  }
+}
+
 const mapDispatch = {auth}
 
-export default connect(null, mapDispatch)(Signup)
+export default connect(mapState, mapDispatch)(Signup)

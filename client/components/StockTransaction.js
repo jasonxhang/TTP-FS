@@ -6,29 +6,19 @@ import {connect} from 'react-redux'
 import {me, fetchPortfolio} from '../store'
 import {formatter} from './containers/currency'
 
-const StockTransaction = (
-  {price, ticker, name, balance, reloadInitialData, portfolio},
-  props
-) => {
+const StockTransaction = ({
+  price,
+  ticker,
+  name,
+  balance,
+  reloadInitialData,
+  portfolio
+}) => {
   const [purchaseType, setPurchase] = useState('')
   const [quantity, setQuantity] = useState('')
   const [notes, setNotes] = useState('')
   const [netVal, setNetVal] = useState(0)
   const [ownedShares, setOwnedShares] = useState(0)
-  // const [message, setMessage] = useState('')
-  // const [variant, setVariant] = useState('')
-  // const [cost, setCost] = useState('')
-
-  // console.log('quantity', quantity)
-  // console.log('purchasetype', purchaseType)
-  // console.log('notes', notes)
-  // console.log('netVal', netVal)
-  // console.log('balance', balance)
-  // console.log('bool', netVal > balance)
-  // console.log('typeof', props.portfolio)
-  // console.log('portfolio?', props.portfolio.length)
-
-  console.log('owned shares', ownedShares)
 
   const calcOwnedShares = () => {
     const num = portfolio.reduce((accum, curr) => {
@@ -43,14 +33,14 @@ const StockTransaction = (
 
   useEffect(() => {
     portfolio.length && calcOwnedShares()
-  }, [])
+  })
 
   const handleOrder = async () => {
     try {
       const order = {purchaseType, quantity, price, ticker, name, notes, netVal}
       const res = await axios.post('/api/stocks/order', order)
       setPurchase('')
-      setQuantity(0)
+      setQuantity('')
       setNotes('')
       setNetVal(0)
       reloadInitialData()
@@ -61,8 +51,8 @@ const StockTransaction = (
   }
 
   const onChange = e => {
+    //only accept whole integers client side
     const re = /^[0-9\b]+$/
-
     // if value is not blank, then test the regex
 
     if (e.target.value === '' || re.test(e.target.value)) {
@@ -71,6 +61,7 @@ const StockTransaction = (
     }
   }
 
+  //if trying to sell more shares than owned or buy with insufficient funds, render error. otherwise display dynamic confirmation
   const renderConfirmButton = () => {
     let message, variant, str
 
@@ -88,30 +79,37 @@ const StockTransaction = (
       str = ''
     }
 
-    return (
-      <div>
-        <p>
-          Total {str}: {formatter.format(netVal)}
-        </p>
-        <Button
-          size="lg"
-          disabled={purchaseType === ''}
-          onClick={handleOrder}
-          variant={variant}
-        >
-          {message}
-        </Button>
-      </div>
-    )
-  }
-
-  const renderInsufficient = () => {
-    return (
-      <Fragment>
-        <p>Total cost: {formatter.format(netVal)}</p>
-        <Alert variant="warning">Insufficient funds!</Alert>
-      </Fragment>
-    )
+    if (purchaseType === 'buy' && netVal > balance) {
+      return (
+        <Fragment>
+          <p>Total cost: {formatter.format(netVal)}</p>
+          <Alert variant="warning">Insufficient funds!</Alert>
+        </Fragment>
+      )
+    } else if (purchaseType === 'sell' && quantity > ownedShares) {
+      return (
+        <Fragment>
+          <p>Total cost: {formatter.format(netVal)}</p>
+          <Alert variant="warning">Insufficient shares to sell!</Alert>
+        </Fragment>
+      )
+    } else {
+      return (
+        <div>
+          <p>
+            Total {str}: {formatter.format(netVal)}
+          </p>
+          <Button
+            size="lg"
+            disabled={purchaseType === '' || quantity === ''}
+            onClick={handleOrder}
+            variant={variant}
+          >
+            {message}
+          </Button>
+        </div>
+      )
+    }
   }
 
   const renderTransactionButtons = () => {
@@ -130,13 +128,13 @@ const StockTransaction = (
   return (
     <Form className="transaction-container">
       <Form.Group controlId="shares">
-        <div>Currently owned: {ownedShares}</div>
+        <div>Shares currently owned: {ownedShares}</div>
         <Form.Label>Number of shares to transact:</Form.Label>
         <Form.Control
           value={quantity}
           type="shares"
-          placeholder="0"
           onChange={onChange}
+          placeholder="0"
         />
       </Form.Group>
 
@@ -151,9 +149,7 @@ const StockTransaction = (
           rows="3"
         />
       </Form.Group>
-      {purchaseType === 'buy' && netVal > balance
-        ? renderInsufficient()
-        : renderConfirmButton()}
+      {renderConfirmButton()}
     </Form>
   )
 }

@@ -16,30 +16,6 @@ router.get('/', async (req, res, next) => {
         }
       }
     })
-    //need to assign latestprice and day's open price
-    // const test = response.map(el => {
-    //   return el.ticker
-    // })
-    // console.log(test)
-
-    // await Promise.all(
-    //   response.forEach(async stock => {
-    //     try {
-    //       const quoteRes = await axios.get(
-    //           `https://cloud.iexapis.com/stable/stock/${
-    //             stock.ticker
-    //           }/quote?token=${API_KEY}`
-    //         ),
-    //         quote = quoteRes.data
-    //       stock.latestPrice = quote.latestPrice
-    //       stock.daysOpenPrice = quote.open
-    //       await stock.save()
-    //       // console.log(stock.ticker)
-    //     } catch (e) {
-    //       console.error(e)
-    //     }
-    //   })
-    // )
 
     response.forEach(async stock => {
       try {
@@ -52,7 +28,6 @@ router.get('/', async (req, res, next) => {
         stock.latestPrice = quote.latestPrice
         stock.daysOpenPrice = quote.open
         await stock.save()
-        // console.log(stock.ticker)
       } catch (e) {
         console.error(e)
       }

@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react'
 import {withRouter, NavLink} from 'react-router-dom'
-import {Nav, Navbar, Form, FormControl, Button} from 'react-bootstrap'
+import {Nav, Navbar, Form} from 'react-bootstrap'
 import Autocomplete from './Autocomplete'
 import {formatter} from './containers/currency'
 
@@ -23,7 +23,7 @@ const TopNav = ({isLoggedIn, handleLogout, balance, history, symbols}) => {
 
   return (
     <div className="App container">
-      <Navbar bg="light" variant="light">
+      <Navbar className="navbar" bg="light" variant="light">
         <Navbar.Brand href="/">TTP-FS Stock Portfolio</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -60,13 +60,6 @@ const TopNav = ({isLoggedIn, handleLogout, balance, history, symbols}) => {
             </Navbar.Brand>
           )}
           <Form inline onSubmit={e => handleSubmit(e)}>
-            {/* <FormControl
-              type="text"
-              placeholder="Enter a ticker symbol"
-              className="mr-sm-2"
-              value={searchVal}
-              onChange={handleSearch}
-            /> */}
             <Autocomplete
               value={searchVal}
               handleSearch={handleSearch}
@@ -76,14 +69,6 @@ const TopNav = ({isLoggedIn, handleLogout, balance, history, symbols}) => {
               handleSubmit={handleSubmit}
               onSubmit={e => handleSubmit(e)}
             />
-            {/* <Button
-              type="submit"
-              variant="outline-success"
-              disabled={searchVal === ''}
-              onSubmit={e => handleSubmit(e)}
-            >
-              Search
-            </Button> */}
           </Form>
         </Navbar.Collapse>
       </Navbar>

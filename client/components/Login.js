@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {FormGroup, FormControl, ControlLabel, Form} from 'react-bootstrap'
+import {Form} from 'react-bootstrap'
 import LoaderButton from './containers/LoaderButton'
 import {connect} from 'react-redux'
 import {auth} from '../store'
@@ -30,17 +30,6 @@ class Login extends Component {
     this.setState({isLoading: true})
 
     this.props.auth(this.state.email, this.state.password, null, 'login')
-    // this.props.userHasAuthenticated(true)
-
-    // try {
-    //   this.props.auth(this.state.email, this.state.password, null, 'login')
-    //   this.props.userHasAuthenticated(true)
-    // } catch (e) {
-    //   // alert(e.message)
-    //   alert(this.props.error.response.data)
-    //   console.error(e)
-    //   this.setState({isLoading: false})
-    // }
   }
 
   render() {
@@ -91,13 +80,5 @@ const mapState = state => {
 }
 
 const mapDispatch = {auth}
-
-// const mapDispatch = dispatch => {
-//   return {
-//     dispatchAuth(email, password, signUpName, method) {
-//       dispatch(auth(email, password, signUpName, method))
-//     }
-//   }
-// }
 
 export default connect(mapState, mapDispatch)(Login)

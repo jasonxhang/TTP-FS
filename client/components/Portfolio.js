@@ -5,12 +5,11 @@ import {withRouter} from 'react-router-dom'
 import {Row, Col, Image, Spinner, Accordion} from 'react-bootstrap'
 import PortfolioItem from './PortfolioItem'
 import NotFound from './NotFound'
-// import fetchPortfolio from '../store'
 
 const Portfolio = props => {
   console.log('props portfolio', props.portfolio)
   const [portfolio, setPortfolio] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
   const [portfolioValue, setPortfolioValue] = useState('')
   console.log('isLoading', isLoading)

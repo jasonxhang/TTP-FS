@@ -1,10 +1,10 @@
-import React, {Fragment, useState} from 'react'
-import {connect} from 'react-redux'
+import React from 'react'
 import {withRouter} from 'react-router-dom'
-import {Row, Col, Image, Spinner} from 'react-bootstrap'
+import {Spinner} from 'react-bootstrap'
 import {useFetchStock} from './containers/useFetchStock'
 import NotFound from './NotFound'
 import StockTransaction from './StockTransaction'
+import {formatter} from './containers/currency'
 
 const StockPage = props => {
   const ticker = props.match.params.ticker
@@ -32,6 +32,17 @@ const StockPage = props => {
             <h1>{info.symbol}</h1>
             <h5>{info.companyName}</h5>
             <h5>Price: {quote.latestPrice}</h5>
+            <div className="stock-details">
+              <h6>Opening price: {quote.open}</h6>
+              <h6>High: {quote.high}</h6>
+              <h6>Low: {quote.low}</h6>
+              <h6>Previous close: {quote.previousClose}</h6>
+              <h6>Change: {quote.change}</h6>
+              <h6>Avg total volume: {quote.avgTotalVolume}</h6>
+              <h6>P/E ratio: {quote.peRatio}</h6>
+              <h6>52 week high: {quote.week52High}</h6>
+              <h6>52 week low: {quote.week52Low}</h6>
+            </div>
           </div>
           <StockTransaction
             price={quote.latestPrice}

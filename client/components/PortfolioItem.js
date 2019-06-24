@@ -19,18 +19,6 @@ const PortfolioItem = ({stock, eventKey}) => {
   } = stock
 
   const [valueStyle, setValueStyle] = useState({})
-  // const [{stockData, isLoading, isError}] = useFetchStock(ticker)
-  // const {info, logo, quote, stats} = stockData
-
-  // const renderLoading = () => {
-  //   return (
-  //     <div>
-  //       {' '}
-  //       Loading...
-  //       <Spinner animation="border" variant="primary" />
-  //     </div>
-  //   )
-  // }
 
   useEffect(() => {
     const style = {
@@ -54,38 +42,32 @@ const PortfolioItem = ({stock, eventKey}) => {
         <Card>
           <Accordion.Toggle as={Card.Header} eventKey={`${eventKey}`}>
             <p>
-              {ticker} - Shares Owned: {numShares} - Total Value:{' '}
-              <span style={valueStyle}>
-                {formatter.format(latestPrice * numShares)}
-              </span>
+              <span style={valueStyle}>{ticker}</span> - Shares Owned:{' '}
+              {numShares} - Current price:{' '}
+              <span style={valueStyle}>{formatter.format(latestPrice)}</span> -
+              Total value: {formatter.format(latestPrice * numShares)}
             </p>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey={`${eventKey}`}>
-            <Card.Body>
+            <Card.Body className="portfolio-item-body">
               <p>Company: {companyName}</p>
               <p>Shares owned: {numShares}</p>
               <p>Current Price: ${latestPrice}</p>
-              <p>Days Open: ${daysOpenPrice}</p>
+              <p>Day's Open: ${daysOpenPrice}</p>
               <p>
                 Last bought:{' '}
                 {moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
               </p>
-              <Link to={`/stock/${ticker}`}>
-                <p>Go to stock page</p>
-              </Link>
+              <p>
+                <Link to={`/stock/${ticker}`}>Go to stock page</Link>
+              </p>
             </Card.Body>
           </Accordion.Collapse>
         </Card>
       )
     )
   }
-  return (
-    <div>
-      {/* {isError && 'Failed to load'} */}
-      {/* {isLoading ? renderLoading() : renderPortfolioItem()} */}
-      {renderPortfolioItem()}
-    </div>
-  )
+  return <div>{renderPortfolioItem()}</div>
 }
 
 export default withRouter(PortfolioItem)

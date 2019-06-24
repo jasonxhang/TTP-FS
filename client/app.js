@@ -1,29 +1,17 @@
-import React, {Component, Fragment} from 'react'
-import {Link, withRouter} from 'react-router-dom'
-import {
-  Nav,
-  Navbar,
-  NavItem,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button
-} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
+import React, {Component} from 'react'
+import {withRouter} from 'react-router-dom'
+
 import Routes from './routes'
 import {connect} from 'react-redux'
 import {logout, me, fetchPortfolio} from './store'
 import {TopNav} from './components'
 import axios from 'axios'
-import Autocomplete from './components/Autocomplete'
 
 class App extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      // isAuthenticated: this.props.isLoggedIn,
-      // isAuthenticating: true,
       symbols: []
     }
   }
@@ -46,29 +34,16 @@ class App extends Component {
 
     if (this.props.isLoggedIn) {
       console.log('user is logged in')
-      // this.userHasAuthenticated(true)
       this.props.loadPortfolio()
     }
-
-    // this.setState({
-    //   isAuthenticating: false
-    // })
   }
-
-  // userHasAuthenticated = authenticated => {
-  //   this.setState({
-  //     isAuthenticated: authenticated
-  //   })
-  // }
 
   handleLogout = () => {
     this.props.handleLogout()
-    // this.userHasAuthenticated(false)
     this.props.history.push('/')
   }
 
   render() {
-    // console.log(this.state)
     return (
       <div className="App container">
         <TopNav
