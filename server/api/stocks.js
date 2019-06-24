@@ -66,7 +66,7 @@ router.post('/order', async (req, res, next) => {
         throw new Error('Insufficient funds to place order!')
       } else {
         const arr = await Stock.findOrCreate({
-          where: {ticker: ticker, companyName: name}
+          where: {ticker: ticker, companyName: name, userId: req.user.id}
         })
         const instance = arr[0] // the first element is the instance
         const wasCreated = arr[1] // the second element tells us if the instance was newly created
@@ -82,7 +82,9 @@ router.post('/order', async (req, res, next) => {
         }
       }
     } else if (purchaseType === 'sell') {
-      const stock = await Stock.findOne({where: {ticker: ticker}})
+      const stock = await Stock.findOne({
+        where: {ticker: ticker, userId: req.user.id}
+      })
       if (quantity > stock.numShares) {
         throw new Error('Not enough shares to sell!')
       } else {

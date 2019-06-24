@@ -25,14 +25,15 @@ const StockTransaction = ({
       if (curr.ticker === ticker) {
         accum = curr.numShares
       }
-
+      if (curr.numShares === 0) accum = 0
       return accum
     }, 0)
+    console.log('num', num)
     setOwnedShares(num)
   }
 
   useEffect(() => {
-    portfolio.length && calcOwnedShares()
+    calcOwnedShares()
   })
 
   const handleOrder = async () => {
