@@ -7,7 +7,6 @@ import PortfolioItem from './PortfolioItem'
 import NotFound from './NotFound'
 
 const Portfolio = props => {
-  console.log('props portfolio', props.portfolio)
   const [portfolio, setPortfolio] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
@@ -79,7 +78,7 @@ const Portfolio = props => {
 }
 
 const mapState = ({portfolio}) => ({
-  portfolio
+  portfolio: portfolio
 })
 
 export default withRouter(connect(mapState)(Portfolio))

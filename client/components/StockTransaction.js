@@ -44,6 +44,7 @@ const StockTransaction = ({
       setNotes('')
       setNetVal(0)
       reloadInitialData()
+      calcOwnedShares()
     } catch (e) {
       alert(e.response.data)
       console.error(e)

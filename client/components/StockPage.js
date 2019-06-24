@@ -5,9 +5,11 @@ import {useFetchStock} from './containers/useFetchStock'
 import NotFound from './NotFound'
 import StockTransaction from './StockTransaction'
 import {formatter} from './containers/currency'
+import {connect} from 'react-redux'
 
 const StockPage = props => {
   const ticker = props.match.params.ticker
+  const {isLoggedIn} = props
   const [{stockData, isLoading, isError}] = useFetchStock(ticker)
 
   const {info, logo, quote, stats} = stockData
@@ -44,11 +46,13 @@ const StockPage = props => {
               <h6>52 week low: {quote.week52Low}</h6>
             </div>
           </div>
-          <StockTransaction
-            price={quote.latestPrice}
-            ticker={info.symbol}
-            name={info.companyName}
-          />
+          {isLoggedIn && (
+            <StockTransaction
+              price={quote.latestPrice}
+              ticker={info.symbol}
+              name={info.companyName}
+            />
+          )}
         </div>
       )
     )
@@ -62,4 +66,10 @@ const StockPage = props => {
   )
 }
 
-export default withRouter(StockPage)
+const mapState = state => {
+  return {
+    isLoggedIn: !!state.user.id
+  }
+}
+
+export default withRouter(connect(mapState)(StockPage))
